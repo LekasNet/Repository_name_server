@@ -1,0 +1,76 @@
+openapi: 3.0.0
+info:
+  title: PC Configurator API
+  version: 1.0.0
+paths:
+  /temporary_user:
+    post:
+      summary: Create a temporary user
+      description: Generates a temporary user token valid for 30 days.
+      responses:
+        '200':
+          description: Temporary user token created.
+          content:
+            application/json:
+              schema:
+                type: string
+  /create_build:
+    post:
+      summary: Initialize a new PC build
+      description: Creates a new PC build for the authenticated user.
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+          description: Bearer token for authentication.
+      responses:
+        '200':
+          description: Build initialized.
+          content:
+            application/json:
+              schema:
+                type: string
+  /add_component:
+    post:
+      summary: Add a component to a build
+      description: Adds a component to the specified PC build.
+      parameters:
+        - name: build_hash
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: component_id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Component added successfully.
+        '418':
+          description: Incompatible components.
+          content:
+            application/json:
+              schema:
+                type: string
+  /remove_component:
+    delete:
+      summary: Remove a component from a build
+      description: Removes a component from the specified PC build.
+      parameters:
+        - name: build_hash
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: component_id
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Component removed successfully.
